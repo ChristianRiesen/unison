@@ -40,7 +40,13 @@ let serverHostName = localCanonicalHostName
 let myCanonicalHostName () =
   if !Trace.runningasserver then serverHostName else Prefs.read clientHostName
 
-let tempFilePrefix = ".unison."
+let tempFilePrefix : string Prefs.t =
+  Prefs.createString "tempFilePrefix" ".unison."
+    ~category:(`Advanced `General)
+    "set prefix for temporary files"
+    ("When specified, this prefix will be used for temporary files. " ^
+     "If not specified, the default \".unison.\" will be used.")
+
 let tempFileSuffixFixed = ".unison.tmp"
 let tempFileSuffix = ref tempFileSuffixFixed
 let includeInTempNames s =
